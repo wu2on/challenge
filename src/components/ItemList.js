@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { itemsFetchData } from "../actions/items";
-import { selectItemEntities } from "../reducers/selectors";
+import { selectFilteredItems } from "../reducers/selectors";
 
 class ItemList extends Component {
   componentDidMount() {
@@ -27,7 +27,7 @@ ItemList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    items: selectItemEntities(state),
+    items: selectFilteredItems(state),
   };
 };
 
