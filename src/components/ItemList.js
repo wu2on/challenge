@@ -1,7 +1,15 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import { itemsFetchData } from "../actions/items";
+import {
+  itemsFetchData,
+  itemsFetchDataError,
+  itemsFetchDataLoading,
+} from "../actions/items";
+
 import { selectFilteredItems } from "../reducers/selectors";
+
+import { Loading } from "./Loading";
+import { List } from "./List";
 
 class ItemList extends Component {
   componentDidMount() {
@@ -9,13 +17,14 @@ class ItemList extends Component {
   }
 
   render() {
-    console.log(this.props.items);
-    return (
-      <ul>
-        {this.props.items.map((item) => (
-          <li key={item.id}>{item.label}</li>
-        ))}
-      </ul>
+    const { isLoading, error, items } = this.props;
+    console.log(items);
+    return isLoading ? (
+      <Loading />
+    ) : error ? (
+      <div>{error}</div>
+    ) : (
+      <List data={items} />
     );
   }
 }
@@ -27,6 +36,8 @@ ItemList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    error: state.error,
+    isLoading: state.isLoading,
     items: selectFilteredItems(state),
   };
 };
